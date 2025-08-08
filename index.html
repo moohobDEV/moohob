@@ -1,41 +1,236 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Omat linkit</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e1e1e, #333);
-      color: white;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>moohob</title>
+
+<!-- FontAwesome CDN some-ikoneille -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<style>
+  /* Perusasetukset */
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    background-color: #000;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Liekki-overlay, joka peittää kaiken aluksi */
+  #flame-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeOut 3.5s ease forwards;
+    animation-delay: 3.5s; /* kestää 3.5s ja sitten häviää */
+  }
+
+  /* Liekin leimahdus (CSS animaatio) */
+  #flame {
+    width: 120px;
+    height: 180px;
+    background: radial-gradient(circle at center, #ff3300 40%, transparent 60%);
+    filter: drop-shadow(0 0 8px #ff3300);
+    animation: flicker 1s infinite alternate;
+    clip-path: polygon(50% 0%, 75% 30%, 55% 80%, 100% 100%, 0% 100%, 25% 30%);
+  }
+
+  @keyframes flicker {
+    0% {
+      filter: drop-shadow(0 0 12px #ff3300);
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      filter: drop-shadow(0 0 20px #ff6600);
+      transform: scale(1.1) translateY(-5px);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  /* Sivun pääasettelu */
+  #content {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 30px 50px;
+    box-sizing: border-box;
+  }
+
+  /* Vasemman yläkulman osio */
+  #left-panel {
+    max-width: 40%;
+  }
+
+  /* Hehkuva moohob-teksti */
+  #logo-text {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #ff0000;
+    text-shadow:
+      0 0 5px #ff0000,
+      0 0 10px #ff0000,
+      0 0 20px #ff0000,
+      0 0 30px #ff0000,
+      0 0 40px #ff0000;
+    margin: 0 0 20px 0;
+    user-select: none;
+  }
+
+  /* Tietolaatikko */
+  #info-box {
+    background: rgba(255, 0, 0, 0.1);
+    border: 2px solid #ff0000;
+    border-radius: 12px;
+    padding: 20px;
+    color: #ffcccc;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    user-select: text;
+  }
+
+  /* Oikean reunan linkit */
+  #right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 35%;
+  }
+
+  /* Yksittäinen linkkilaatikko */
+  .link-box {
+    background: #220000;
+    border: 2px solid #ff0000;
+    border-radius: 12px;
+    padding: 15px 25px;
+    color: #ff6666;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background 0.3s, color 0.3s;
+    user-select: none;
+  }
+
+  /* Ikonit linkeissä */
+  .link-box i {
+    font-size: 1.8rem;
+  }
+
+  /* Hover-efekti */
+  .link-box:hover {
+    background: #ff0000;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* Responsiivisuus */
+  @media (max-width: 800px) {
+    #content {
+      flex-direction: column;
+      padding: 20px;
+    }
+    #left-panel, #right-panel {
+      max-width: 100%;
+    }
+    #right-panel {
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    .link-box {
+      flex: 1 1 120px;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 10px 15px;
+    }
+    #logo-text {
+      font-size: 3rem;
       text-align: center;
-      padding: 40px;
     }
-    h1 {
-      margin-bottom: 200px;
+    #info-box {
+      font-size: 1rem;
+      margin-top: 15px;
     }
-    .link {
-      display: block;
-      background: #444;
-      color: white;
-      padding: 15px;
-      margin: 10px auto;
-      width: 250px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 18px;
-      transition: background 0.3s;
-    }
-    .link:hover {
-      background: #666;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <h1>🌐 WORK IN PROGGRESS</h1>
-  <a href="" class="link">TULOSSA PIAN</a>
-  <a href="https://www.youtube.com/@Moohob-Official" class="link">YouTube</a>
-  <a href="" class="link">TULOSSA PIAN</a>
+
+<!-- Liekki-animaatio overlay -->
+<div id="flame-overlay">
+  <div id="flame"></div>
+</div>
+
+<!-- Sivun sisältö -->
+<div id="content">
+  <section id="left-panel">
+    <h1 id="logo-text">moohob</h1>
+    <div id="info-box" contenteditable="true" spellcheck="false">
+      Tähän voit kirjoittaa tietoja itsestäsi. Muokkaa tämä teksti helposti suoraan sivulla.
+    </div>
+  </section>
+
+  <nav id="right-panel" aria-label="Some linkit">
+    <a
+      class="link-box"
+      href="https://instagram.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      ><i class="fab fa-instagram"></i> Instagram</a
+    >
+    <a
+      class="link-box"
+      href="https://youtube.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      ><i class="fab fa-youtube"></i> YouTube</a
+    >
+    <a
+      class="link-box"
+      href="https://github.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      ><i class="fab fa-github"></i> GitHub</a
+    >
+  </nav>
+</div>
+
+<script>
+  // Piilota liekki-animaatio 4 sekunnin kuluttua
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const overlay = document.getElementById('flame-overlay');
+      overlay.style.transition = 'opacity 1s ease';
+      overlay.style.opacity = 0;
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 1000);
+    }, 4000);
+  });
+</script>
+
 </body>
 </html>
